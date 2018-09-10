@@ -1,25 +1,38 @@
 import Cocoa
+import Defaults
+
+extension Defaults.Keys {
+    static let dreams = Defaults.Key<Array<String>>("dreams", default: [
+        "Hit the gym",
+        "Run daily",
+        "Become a millionaire",
+        "Become a better programmer",
+        "Achieve your dreams"
+        ])
+}
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
-    var dreams = [String]()
+    var dreams = defaults[.dreams]
     @objc dynamic var selectedIndexes = IndexSet()
 
     @IBOutlet weak var table: NSTableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        dreams = ["Hit the gym", "Run daily", "Become a millionaire", "Become a better programmer", "Achieve your dreams"]
-        table.reloadData()
+    }
+    
+    override var acceptsFirstResponder : Bool {
+        return true
+    }
+    
+    override func keyDown(with theEvent: NSEvent) {
+        if theEvent.keyCode == 51 {
+            removeDream()
+        }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return dreams.count
-    }
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let dream = table.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
-        dream.textField?.stringValue = dreams[row]
-        
-        return dream
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
@@ -28,10 +41,14 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func addNewDream() {
         let last = dreams.count
-        dreams.append("Double Click or Press Enter to Add Item")
+        dreams.append("")
         table.insertRows(at: IndexSet(integer: last), withAnimation: .effectGap)
         table.scrollRowToVisible(last)
         table.selectRowIndexes([last], byExtendingSelection: false)
+        
+        // focus on the last item, add cursor & start editing
+        let keyView = table.view(atColumn: 0, row: last, makeIfNecessary: false) as! NSTableCellView
+        self.view.window!.makeFirstResponder(keyView.textField)
         
         saveDreams()
     }
@@ -48,12 +65,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         saveDreams()
     }
 
-    override var representedObject: Any? {
-        didSet {
-
-        }
-    }
-
     @IBAction func addTableRow(_ sender: Any) {
         addNewDream()
     }
@@ -62,9 +73,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         removeDream()
     }
     
-    
     func saveDreams() {
-//        defaults[.dreams] = dreams
+        defaults[.dreams] = dreams
     }
 }
 
