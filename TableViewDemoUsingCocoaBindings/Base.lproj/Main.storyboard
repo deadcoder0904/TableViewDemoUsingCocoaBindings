@@ -799,6 +799,17 @@
                                     <action selector="removeTableRow:" target="XfG-lQ-9wD" id="t2a-db-lWr"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R7z-Qv-uT5">
+                                <rect key="frame" x="339" y="-7" width="147" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Reset To Defaults" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sDq-nO-OY0">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetToDefaultsBtnClicked:" target="XfG-lQ-9wD" id="IUd-fA-1MD"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>

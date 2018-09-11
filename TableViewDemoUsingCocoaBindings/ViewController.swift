@@ -40,6 +40,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        saveDreams()
+    }
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
         return dreams.count
     }
@@ -70,10 +74,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         saveDreams()
     }
 
-    override func controlTextDidEndEditing(_ obj: Notification) {
-        saveDreams()
-    }
-    
     @IBAction func addTableRow(_ sender: Any) {
         addNewDream()
     }
@@ -82,8 +82,15 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         removeDream()
     }
     
+    
+    @IBAction func resetToDefaultsBtnClicked(_ sender: Any) {
+        dreamNames = ["Climb Mount Everest", "Swim in the Atlantic"]
+        dreams = dreamNames.map{Dream(name: $0)}
+        table.reloadData()
+        saveDreams()
+    }
+    
     func saveDreams() {
         defaults[.dreams] = dreams.map({ $0.name })
     }
 }
-
