@@ -749,7 +749,7 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="zv4-DV-QQ2" name="value" keyPath="objectValue" id="mwC-ak-CmW"/>
+                                                                        <binding destination="zv4-DV-QQ2" name="value" keyPath="objectValue.name" id="Jfb-70-znp"/>
                                                                         <outlet property="delegate" destination="XfG-lQ-9wD" id="xMb-LV-JIt"/>
                                                                     </connections>
                                                                 </textField>
@@ -769,7 +769,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="CM4-l6-7mG">
-                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="qOj-cp-zpd">

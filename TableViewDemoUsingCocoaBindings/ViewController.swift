@@ -1,6 +1,13 @@
 import Cocoa
 import Defaults
 
+class Dream : NSObject {
+    @objc dynamic var name : String
+    init(name : String) {
+        self.name = name
+    }
+}
+
 extension Defaults.Keys {
     static let dreams = Defaults.Key<Array<String>>("dreams", default: [
         "Hit the gym",
@@ -12,13 +19,15 @@ extension Defaults.Keys {
 }
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
-    var dreams = defaults[.dreams]
+    var dreamNames = defaults[.dreams]
+    var dreams = [Dream]()
     @objc dynamic var selectedIndexes = IndexSet()
 
     @IBOutlet weak var table: NSTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dreams = dreamNames.map{Dream(name: $0)}
     }
     
     override var acceptsFirstResponder : Bool {
@@ -41,7 +50,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func addNewDream() {
         let last = dreams.count
-        dreams.append("")
+        dreams.append(Dream(name: ""))
         table.insertRows(at: IndexSet(integer: last), withAnimation: .effectGap)
         table.scrollRowToVisible(last)
         table.selectRowIndexes([last], byExtendingSelection: false)
@@ -61,10 +70,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         saveDreams()
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         saveDreams()
     }
-
+    
     @IBAction func addTableRow(_ sender: Any) {
         addNewDream()
     }
@@ -74,7 +83,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func saveDreams() {
-        defaults[.dreams] = dreams
+        defaults[.dreams] = dreams.map({ $0.name })
     }
 }
 
